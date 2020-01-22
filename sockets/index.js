@@ -14,9 +14,6 @@ const createConnections = server => {
 
     socketHandler(server);
   });
-  setInterval(() => {
-    io.emit("users", users);
-  }, 50);
 };
 
 module.exports = createConnections;

@@ -10,7 +10,7 @@ const userConnect = (server, data) => {
     }
   });
 
-  // console.log(server.socket);
+  server.io.emit("users", server.users);
   console.log(currentlyConnected);
 };
 
