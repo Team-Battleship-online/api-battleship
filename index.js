@@ -13,9 +13,9 @@ const io = require("socket.io")(server);
 const users = {};
 
 io.on("connection", socket => {
+  let currentlyConnected = Object.keys(io.sockets.sockets);
   socket.on("user-connect", data => {
-    let currentlyConnected = Object.keys(io.sockets.sockets);
-    users[data.username] = data.socketId;
+    users[data.username] = socket.id;
 
     Object.keys(users).forEach(user => {
       if (!currentlyConnected.includes(users[user])) {
@@ -24,15 +24,22 @@ io.on("connection", socket => {
     });
 
     console.log(users);
+    console.log(currentlyConnected);
   });
 
-  setInterval(() => {
-    socket.emit("users", users);
-  }, 50);
+  console.log(currentlyConnected);
 
-  socket.on("user-gone", username => {
-    delete users[username];
+  socket.on("disconnect", reason => {
+    console.log("Hey I disconnected", socket.id);
+
+    Object.keys(users).forEach(user => {
+      if (users[user] === socket.id) {
+        delete users[user];
+      }
+    });
   });
-
-  // console.log(currentlyConnected);
 });
+
+setInterval(() => {
+  io.emit("users", users);
+}, 50);
