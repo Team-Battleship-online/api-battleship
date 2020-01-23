@@ -22,7 +22,16 @@ const disconnect = server => {
   server.io.emit("users", server.users);
 };
 
+const sendGameInvite = (server, userName) => {
+  //user sending invite's socket = server.users[server.socket.id]
+  //selected user's socket = server.users[userName]
+  server.io
+    .to(server.users[userName])
+    .emit("received-game-invite", server.socket.username);
+};
+
 module.exports = {
   userConnect,
-  disconnect
+  disconnect,
+  sendGameInvite
 };

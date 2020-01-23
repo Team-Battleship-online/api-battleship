@@ -6,4 +6,8 @@ module.exports = server => {
   );
 
   server.socket.on("disconnect", () => menuHandlers.disconnect(server));
+
+  server.socket.on("send-game-invite", userName =>
+    menuHandlers.sendGameInvite(server, userName)
+  );
 };
