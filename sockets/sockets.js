@@ -10,4 +10,8 @@ module.exports = server => {
   server.socket.on("send-game-invite", userName =>
     menuHandlers.sendGameInvite(server, userName)
   );
+
+  server.socket.on("decline-game-invite", userName =>
+    menuHandlers.declineGameInvite(server, userName)
+  );
 };

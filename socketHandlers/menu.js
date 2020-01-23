@@ -30,8 +30,15 @@ const sendGameInvite = (server, userName) => {
     .emit("received-game-invite", server.socket.username);
 };
 
+const declineGameInvite = (server, userName) => {
+  server.io
+    .to(server.users[userName])
+    .emit("declined-game-invite", server.socket.username);
+};
+
 module.exports = {
   userConnect,
   disconnect,
-  sendGameInvite
+  sendGameInvite,
+  declineGameInvite
 };
